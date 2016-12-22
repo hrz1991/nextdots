@@ -34,7 +34,7 @@
 			@endforeach
 		</td>
 		<td><a href="{{URL::to('property/'.$_property->id)}}">Show</a> </td>
-		{{-- <td><a href="{{URL::to('/property/'.$_property->id.'/edit')}}">Edit</a> </td> --}}
+		<td><a href="{{URL::to('/property/'.$_property->id.'/edit')}}">Edit</a> </td>
 		<td>{!! Form::open(['url' => 'property/'.$_property->id, 'method' => 'delete']) !!}
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Delete</button>
 		{!! Form::close() !!}</td>

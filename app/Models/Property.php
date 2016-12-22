@@ -10,7 +10,7 @@ class Property extends Model
 
     public function state()
     {
-        return $this->hasOne('App\Models\State', 'id');
+        return $this->belongsTo('App\Models\State');
     }
 
     public function facilities()

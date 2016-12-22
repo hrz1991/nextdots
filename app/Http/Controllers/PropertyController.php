@@ -56,11 +56,8 @@ class PropertyController extends Controller
 
         $_new->save();
 
-        foreach ($request->input('facilities') as $facility) {
-            DB::table('properties_facilities')->insert(
-                ['property_id' => $_new->id, 'facilities_id' => $facility]
-            );
-        }
+
+        $this->insertFacilities($_new->id, $request->input('facilities'));
 
         Session::flash('$_message', "Property was deleted successfully");
         return redirect('property');
@@ -75,7 +72,7 @@ class PropertyController extends Controller
     public function show($id)
     {
         $_property = Property::find($id);
-        return $_property; 
+        return view('property._show', ['_property' => $_property]);
     }
 
     /**
@@ -102,7 +99,35 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $_edit = Property::find($id);
+
+        $_edit->title = $request->input('title');
+        $_edit->description = $request->input('description');
+        $_edit->address = $request->input('address');
+        $_edit->town = $request->input('town');
+        $_edit->county = $request->input('county');
+        $_edit->country = $request->input('country');
+        $_edit->state_id = $request->input('state_id');
+
+        $_edit->save();
+
+        
+        DB::table('facilities_property')->where('property_id', '=', $_edit->id)->delete();
+
+        $this->insertFacilities($id, $request->input('facilities'));
+        
+
+        Session::flash('$_message', "Property was deleted successfully");
+        return redirect('property');
+    }
+
+    public function insertFacilities($id, $facilities){
+        foreach ($facilities as $facility) {
+            DB::table('facilities_property')->insert(
+                ['property_id' => $id, 'facilities_id' => $facility]
+            );
+        }
     }
 
     /**
