@@ -12,7 +12,7 @@ class CreateProperiesFacilitiesTables extends Migration
      */
     public function up()
     {
-        Schema::create('properties_facilities', function (Blueprint $table) {
+        Schema::create('facilities_property', function (Blueprint $table) {
 
             $table->integer('property_id');
             $table->integer('facilities_id');
@@ -31,6 +31,6 @@ class CreateProperiesFacilitiesTables extends Migration
      */
     public function down()
     {
-        Schema::drop('properties_facilities');
+        Schema::drop('facilities_property');
     }
 }
