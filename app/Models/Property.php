@@ -10,11 +10,11 @@ class Property extends Model
 
     public function state()
     {
-        return $this->hasOne('App\State');
+        return $this->hasOne('App\Models\State', 'id');
     }
 
     public function facilities()
     {
-        return $this->belongsToMany('App\Facilities');
+        return $this->belongsToMany('App\Models\Facilities');
     }
 }
