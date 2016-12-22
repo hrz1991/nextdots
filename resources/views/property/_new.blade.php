@@ -7,11 +7,12 @@
 	<input type="text" name="country" class="form-control" placeholder="Enter country" required>
 	<select name="state_id">
 		@foreach ($_states as $_state)
-			<option vale="{{$_state->id}}">{{$_state->name}}</option>
+			<option value="{{$_state->id}}">{{$_state->name}}</option>
 		@endforeach
 	</select>
 	@foreach ($_facilities as $_facility)
-		<input type="checkbox" name="facilities[]" vale="{{$_facility->id}}">{{$_facility->name}}
+		{{Form::checkbox('facilities[]', $_facility->id)}}
+		{{$_facility->name}}
 	@endforeach
 	<br>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>

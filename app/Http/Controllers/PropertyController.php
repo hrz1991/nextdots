@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\Facilities;
 use App\Models\State;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 
@@ -43,7 +44,26 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $_new = new Property();
+
+        $_new->title = $request->input('title');
+        $_new->description = $request->input('description');
+        $_new->address = $request->input('address');
+        $_new->town = $request->input('town');
+        $_new->county = $request->input('county');
+        $_new->country = $request->input('country');
+        $_new->state_id = $request->input('state_id');
+
+        $_new->save();
+
+        foreach ($request->input('facilities') as $facility) {
+            DB::table('properties_facilities')->insert(
+                ['property_id' => $_new->id, 'facilities_id' => $facility]
+            );
+        }
+
+        Session::flash('$_message', "Property was deleted successfully");
+        return redirect('property');
     }
 
     /**
