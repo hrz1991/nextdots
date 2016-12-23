@@ -1,3 +1,4 @@
+{{$_flagAssign = false}}
 {!! Form::open(['url' => 'property/'.$_property->id, 'method' => 'put']) !!}
 	<input value="{{$_property->title}}" type="text" name="title" class="form-control" placeholder="Enter title" required autofocus>
 	<textarea type="text" name="description" class="form-control" required>{{$_property->description}}</textarea>

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Facilities extends Model
+class Facility extends Model
 {
-    protected $table = 'facilities';
+    protected $table = 'facility';
 
     public function properties()
     {

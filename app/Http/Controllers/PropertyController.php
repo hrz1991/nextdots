@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Property;
-use App\Models\Facilities;
+use App\Models\Facility;
 use App\Models\State;
 
 use Illuminate\Support\Facades\DB;
@@ -20,7 +20,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $_all = Property::all();
+        $_all = Property::with('facilities', 'state')->get();
         return view('property.index', ['_properties' => $_all]);
     }
 
@@ -31,7 +31,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        $_facilities = Facilities::all();
+        $_facilities = Facility::all();
         $_states = State::all();
         return view('property._new', ['_facilities' => $_facilities, '_states' => $_states]);
     }
@@ -44,6 +44,19 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'town' => 'required',
+            'county' => 'required',
+            'country' => 'required',
+            'state_id' => 'required',
+            'facilities' => 'required'
+        ]);
+
         $_new = new Property();
 
         $_new->title = $request->input('title');
@@ -55,9 +68,10 @@ class PropertyController extends Controller
         $_new->state_id = $request->input('state_id');
 
         $_new->save();
+        
+        $_new->facilities()->saveMany(Facility::whereIn('id', $request->input('facilities'))->get());
 
-
-        $this->insertFacilities($_new->id, $request->input('facilities'));
+        
 
         Session::flash('$_message', "Property was deleted successfully");
         return redirect('property');
@@ -83,7 +97,7 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
-        $_facilities = Facilities::all();
+        $_facilities = Facility::all();
         $_states = State::all();
 
         $_edit = Property::find($id);
@@ -99,6 +113,17 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'town' => 'required',
+            'county' => 'required',
+            'country' => 'required',
+            'state_id' => 'required',
+            'facilities' => 'required'
+        ]);
 
         $_edit = Property::find($id);
 
@@ -112,22 +137,12 @@ class PropertyController extends Controller
 
         $_edit->save();
 
-        
-        DB::table('facilities_property')->where('property_id', '=', $_edit->id)->delete();
-
-        $this->insertFacilities($id, $request->input('facilities'));
+        $_edit->facilities()->detach();    
+        $_edit->facilities()->saveMany(Facility::whereIn('id', $request->input('facilities'))->get());
         
 
         Session::flash('$_message', "Property was deleted successfully");
         return redirect('property');
-    }
-
-    public function insertFacilities($id, $facilities){
-        foreach ($facilities as $facility) {
-            DB::table('facilities_property')->insert(
-                ['property_id' => $id, 'facilities_id' => $facility]
-            );
-        }
     }
 
     /**

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Facilities;
+use App\Models\Facility;
 
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 
-class FacilitiesController extends Controller
+class FacilityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class FacilitiesController extends Controller
      */
     public function index()
     {
-        $_all = Facilities::all();
-        return view('facilities.index', ['_facilities' => $_all]);
+        $_all = Facility::all();
+        return view('facility.index', ['_facilities' => $_all]);
     }
 
     /**
@@ -28,7 +28,7 @@ class FacilitiesController extends Controller
      */
     public function create()
     {
-        return view('facilities._new');
+        return view('facility._new');
     }
 
     /**
@@ -39,13 +39,13 @@ class FacilitiesController extends Controller
      */
     public function store(Request $request)
     {
-        $_new = new Facilities();
+        $_new = new Facility();
 
         $_new->name = $request->input('name');
         $_new->save();
 
         Session::flash('$_message', "Facility was created successfully");
-        return redirect('facilities');
+        return redirect('facility');
     }
 
     /**
@@ -56,7 +56,7 @@ class FacilitiesController extends Controller
      */
     public function show($id)
     {
-        $_facility = Facilities::find($id);
+        $_facility = Facility::find($id);
         return $_facility; 
     }
 
@@ -68,8 +68,8 @@ class FacilitiesController extends Controller
      */
     public function edit($id)
     {
-        $_edit = Facilities::find($id);
-        return view('facilities._edit', ['_facility' => $_edit]);
+        $_edit = Facility::find($id);
+        return view('facility._edit', ['_facility' => $_edit]);
     }
 
     /**
@@ -81,12 +81,12 @@ class FacilitiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $_facility = Facilities::find($id);
+        $_facility = Facility::find($id);
         $_facility->name = $request->input('name');
         $_facility->save();
 
         Session::flash('$_message', "Facility was updated successfully");
-        return redirect('facilities');
+        return redirect('facility');
     }
 
     /**
@@ -97,9 +97,9 @@ class FacilitiesController extends Controller
      */
     public function destroy($id)
     {
-        $_facility = Facilities::find($id);
+        $_facility = Facility::find($id);
         $_facility->delete();
         Session::flash('$_message', "Facility was deleted successfully");
-        return redirect('facilities');
+        return redirect('facility');
     }
 }

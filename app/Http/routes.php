@@ -30,7 +30,7 @@ Route::resource('auth', 'Auth\AuthController');
 
 Route::group(['middleware' => 'auth'], function()
 {
-    Route::resource('facilities', 'FacilitiesController');
+    Route::resource('facility', 'FacilityController');
 	Route::resource('property', 'PropertyController');
 	Route::resource('state', 'StateController');
 });

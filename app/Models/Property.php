@@ -15,6 +15,6 @@ class Property extends Model
 
     public function facilities()
     {
-        return $this->belongsToMany('App\Models\Facilities');
+        return $this->belongsToMany('App\Models\Facility');
     }
 }

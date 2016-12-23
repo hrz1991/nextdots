@@ -12,7 +12,7 @@ class CreateFacilitiesTables extends Migration
      */
     public function up()
     {
-        Schema::create('facilities', function (Blueprint $table) {
+        Schema::create('facility', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
             $table->timestamps();
@@ -26,6 +26,6 @@ class CreateFacilitiesTables extends Migration
      */
     public function down()
     {
-        Schema::drop('facilities');
+        Schema::drop('facility');
     }
 }
